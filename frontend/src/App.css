@@ -4,3 +4,13 @@
   display: flex;
   color: black;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 236, 0.281);
+}
+::-webkit-scrollbar-thumb :hover {
+  background: #555;
+}

@@ -4,6 +4,8 @@ import chats from "./data/data.js";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 app.use(express.json());
@@ -15,6 +17,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
+app.use(notFound);
+app.use(errorHandler);
 
 app.get("/api/chat/:id", (req, res) => {
   const singleChat = chats.find((c) => c._id === req.params.id);

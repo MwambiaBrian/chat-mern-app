@@ -14,7 +14,7 @@ const UserModel = mongoose.Schema(
     },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 UserModel.methods.comparePassword = async function (password) {

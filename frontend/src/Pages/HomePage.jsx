@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   Box,
@@ -13,10 +14,18 @@ import Login from "../Components/Authentication/Login";
 import SignUp from "../Components/Authentication/SignUp";
 
 const HomePage = () => {
+  const history = useHistory();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) {
+      history.push("/chats");
+    }
+  }, [history]);
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
+        display="flex"
         alignItems="center" // Center vertically
         justifyContent="center" // Center horizontally
         p={3}
