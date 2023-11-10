@@ -6,8 +6,9 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "../ChatLoading";
 import { getSender } from "../../config/ChatLogic";
 import GroupChatModal from "./GroupChatModal";
+import axios from "axios";
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, chats, setSelectedChat, setChats, user } = ChatState();
   const toast = useToast();
@@ -22,10 +23,11 @@ const MyChats = () => {
         "http://localhost:5000/api/chat",
         config
       );
+      setChats(data);
     } catch (error) {
       toast({
         title: "Error occured",
-        description: "Failed to load the chats",
+        description: error.message,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -36,7 +38,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}

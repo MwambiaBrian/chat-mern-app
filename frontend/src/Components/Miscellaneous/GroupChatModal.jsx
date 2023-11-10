@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   Input,
@@ -13,20 +14,114 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import axios from "axios";
 import { ChatState } from "../../Context/ChatProvider";
+import UserListItem from "../UserAvatar/UserListItem";
+import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
-  const [selectedUser, setSelectedUser] = useState([]);
-  const [search, setSearch] = useState();
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState();
-  const [loading, setloading] = useState();
+  const [loading, setLoading] = useState(false);
 
   const { user, chats, setChats } = ChatState();
   const toast = useToast();
-  const handleSearch = () => {};
-  const handleSubmit = () => {};
+  const handleSearch = async (query) => {
+    if (!query) {
+      return;
+    }
+    try {
+      setSearch(query);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `http://localhost:5000/api/user?search=${search}`,
+        config
+      );
+      setLoading(false);
+      console.log(data);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error occured",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+  const handleSubmit = async () => {
+    if (!groupChatName || !selectedUsers) {
+      toast({
+        title: "Please fill all the fields",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/chat/group",
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUsers.map((u) => u._id)),
+        },
+        config
+      );
+      setChats([data, ...chats]);
+      onClose();
+      toast({
+        title: "New Group Chat Created",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to Create the Chat",
+
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+  const handleGroup = (userToAdd) => {
+    if (selectedUsers.includes(userToAdd)) {
+      toast({
+        title: "User already Added",
+
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+    setSelectedUsers([...selectedUsers, userToAdd]);
+  };
+  const handleDelete = (userToDelete) => {
+    setSelectedUsers(
+      selectedUsers.filter((sel) => sel._id !== userToDelete._id)
+    );
+  };
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -58,6 +153,29 @@ const GroupChatModal = ({ children }) => {
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </FormControl>
+            <Box display="flex" w="100%" flexWrap="wrap">
+              {selectedUsers.map((u) => (
+                <UserBadgeItem
+                  key={u._id}
+                  user={u}
+                  handleFunction={() => handleDelete(u)}
+                />
+              ))}
+            </Box>
+
+            {loading ? (
+              <div>loading</div>
+            ) : (
+              searchResult
+                ?.slice(0, 4)
+                .map((user) => (
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => handleGroup(user)}
+                  />
+                ))
+            )}
           </ModalBody>
 
           <ModalFooter>
