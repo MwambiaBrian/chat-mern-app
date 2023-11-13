@@ -47,8 +47,10 @@ Set up MongoDB:
 Create a MongoDB Atlas account or set up a local MongoDB database.
 Configure the MongoDB connection in server/config/db.js.
 
-![Chat page](image.png)
+
 ```
+
+![Chat page](image.png)
 
 ![Login page](image-1.png)
 
