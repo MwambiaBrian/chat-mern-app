@@ -8,19 +8,33 @@ import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import { Server } from "socket.io";
+import path from "path";
 
 const app = express();
 app.use(express.json());
 dotenv.config();
 connectDB();
 app.use(cors());
-app.get("/", (req, res) => {
-  res.send("Hello from chatting server");
-});
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+
+//--------------------------Deployment--------------------------
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontend", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Hello from chatting server");
+  });
+}
+
+//--------------------------Deployment---------------------------
+
 app.use(notFound);
 app.use(errorHandler);
 
@@ -33,6 +47,8 @@ const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
   console.log(`--> Server listening on port ${PORT} ...`);
 });
+
+//Real-time messaging with socket-io
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: { origin: "http://localhost:5173" },
