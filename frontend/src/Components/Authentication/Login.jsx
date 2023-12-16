@@ -14,7 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState();
   const toast = useToast();
   const history = useHistory();
-  const url = "http://localhost:5000/api/user/login";
+  const url = "https://linkup-1uud.onrender.com/api/user/login";
 
   const handleClick = () => setShow(!show);
 

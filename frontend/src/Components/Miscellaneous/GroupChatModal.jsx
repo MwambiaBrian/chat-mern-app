@@ -76,7 +76,7 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:5000/api/chat/group",
+        "https://linkup-1uud.onrender.com/api/chat/group",
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),

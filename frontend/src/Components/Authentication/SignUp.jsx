@@ -16,7 +16,7 @@ const SignUp = () => {
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const url = "http://localhost:5000/api/user";
+  const url = "https://linkup-1uud.onrender.com/api/user";
   const history = useHistory();
 
   const handleClick = () => setShow(!show);

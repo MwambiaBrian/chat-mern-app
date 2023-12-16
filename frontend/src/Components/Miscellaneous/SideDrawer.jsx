@@ -47,7 +47,7 @@ const SideDrawer = () => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  const url = "http://localhost:5000/api/user";
+  const url = "https://linkup-1uud.onrender.com/api/user";
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     history.push("/");
@@ -71,7 +71,7 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.get(
-        `http://localhost:5000/api/user?search=${search}`,
+        `https://linkup-1uud.onrender.com/api/user/?search=${search}`,
         config
       );
       setLoading(false);
@@ -97,7 +97,7 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:5000/api/chat",
+        "https://linkup-1uud.onrender.com/api/chat",
         { userId },
         config
       );

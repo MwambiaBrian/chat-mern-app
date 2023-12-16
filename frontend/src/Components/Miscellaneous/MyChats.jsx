@@ -20,7 +20,7 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
       const { data } = await axios.get(
-        "http://localhost:5000/api/chat",
+        "https://linkup-1uud.onrender.com/api/user/chat",
         config
       );
       setChats(data);
