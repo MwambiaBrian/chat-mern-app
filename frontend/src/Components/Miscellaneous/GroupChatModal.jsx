@@ -41,7 +41,7 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.get(
-        `http://localhost:5000/api/user?search=${search}`,
+        `https://linkup-1uud.onrender.com/api/user?search=${search}`,
         config
       );
       setLoading(false);
