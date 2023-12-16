@@ -20,5 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
     "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "vite": "^5.0.10"
   }
 }
