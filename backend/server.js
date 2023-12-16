@@ -51,7 +51,7 @@ const server = app.listen(PORT, () => {
 //Real-time messaging with socket-io
 const io = new Server(server, {
   pingTimeout: 60000,
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: "*" },
 });
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
