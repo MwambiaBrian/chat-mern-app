@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import Lottie from "react-lottie";
+import "./Styles.css";
 import {
   Box,
   FormControl,
@@ -15,7 +16,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { getSender, getSenderFull } from "../config/ChatLogic";
 import ProfileModal from "./Miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./Miscellaneous/UpdateGroupChatModal";
-import "./styles.css";
+
 import animationData from "../Animations/typing.json";
 import ScrollableChat from "./ScrollableChat";
 import io, { Socket } from "socket.io-client";
