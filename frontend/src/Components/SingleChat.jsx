@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import Lottie from "react-lottie";
-import "./Styles";
+import "./Styles.css";
 import {
   Box,
   FormControl,
